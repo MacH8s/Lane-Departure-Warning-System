@@ -225,46 +225,46 @@ void LaneAnalysis::checkAndDrawDeparture(Mat& img, int& originalWidth)
 		{
 			if(linePointsSourceImage[1][0]  >= (ROIStart + (3 * ROIlength / 4)))
 			{
-				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(0, 255, 0), CV_FILLED, 8, 0);
-				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
+				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(0, 255, 0), cv::FILLED, 8, 0);
+				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
 			}
 			else if((ROIStart + ROIlength) > linePointsSourceImage[1][0] && linePointsSourceImage[1][0] > (ROIStart + (ROIlength / 2)))
 			{
-				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(0, 150, 255), CV_FILLED, 8, 0);
-				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
+				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(0, 150, 255), cv::FILLED, 8, 0);
+				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
 			}
 			else if(linePointsSourceImage[1][0] < ROIStart + (ROIlength / 2))
 			{
-				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(0, 0, 255), CV_FILLED, 8, 0);
-				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
+				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(0, 0, 255), cv::FILLED, 8, 0);
+				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
 			}
 			else
 			{
-				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
-				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
+				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
+				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
 			}
 		}
 		if(leftLaneDetected == true)
 		{
 			if(linePointsSourceImage[1][0] <= (ROIStart + (ROIlength/ 4)))
 			{
-				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(0, 255, 0), CV_FILLED, 8, 0);
-				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
+				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(0, 255, 0), cv::FILLED, 8, 0);
+				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
 			}
 			else if((ROIStart + (ROIlength / 4)) < linePointsSourceImage[1][0] && linePointsSourceImage[1][0] < (ROIStart + (ROIlength / 2)))
 			{
-				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(0, 150, 255), CV_FILLED, 8, 0);
-				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
+				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(0, 150, 255), cv::FILLED, 8, 0);
+				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
 			}
 			else if (linePointsSourceImage[1][0] > (ROIStart + (ROIlength/ 2)))
 			{
-				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(0, 0, 255), CV_FILLED, 8, 0);
-				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
+				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(0, 0, 255), cv::FILLED, 8, 0);
+				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
 			}
 			else
 			{
-				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
-				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
+				rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
+				rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
 			}
 		}
 	}
@@ -274,35 +274,35 @@ void LaneAnalysis::checkAndDrawDeparture(Mat& img, int& originalWidth)
 	{
 		//Right lane signaling
 		if(linePointsSourceImage[1][0]  >= (ROIStart + (3 * ROIlength / 4)))
-			rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(0, 255, 0), CV_FILLED, 8, 0);
+			rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(0, 255, 0), cv::FILLED, 8, 0);
 			
 		else if((ROIStart + ROIlength) > linePointsSourceImage[1][0] && linePointsSourceImage[1][0] > (ROIStart + (ROIlength / 2)))
-			rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(0, 150, 255), CV_FILLED, 8, 0);
+			rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(0, 150, 255), cv::FILLED, 8, 0);
 			
 		else if(linePointsSourceImage[1][0] < ROIStart + (ROIlength / 2))
-			rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(0, 0, 255), CV_FILLED, 8, 0);
+			rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(0, 0, 255), cv::FILLED, 8, 0);
 		
 		else 
-			rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
+			rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
 		//Left lane signaling
 		if(linePointsSourceImage[3][0] <= (ROIStart + (ROIlength/ 4)))
-			rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(0, 255, 0), CV_FILLED, 8, 0);
+			rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(0, 255, 0), cv::FILLED, 8, 0);
 			
 		else if((ROIStart + (ROIlength / 4)) < linePointsSourceImage[3][0] && linePointsSourceImage[3][0] < (ROIStart + (ROIlength / 2)))
-			rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(0, 150, 255), CV_FILLED, 8, 0);
+			rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(0, 150, 255), cv::FILLED, 8, 0);
 			
 		else if (linePointsSourceImage[3][0] > (ROIStart + (ROIlength/ 2)))
-			rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(0, 0, 255), CV_FILLED, 8, 0);
+			rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(0, 0, 255), cv::FILLED, 8, 0);
 
 		else 
-			rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
+			rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
 	}
 	
 	//Check if no lane were detected
 	else
 	{
-		rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
-		rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), CV_FILLED, 8, 0);
+		rectangle(img, pt1RightWarning, pt2RightWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
+		rectangle(img, pt1LeftWarning, pt2LeftWarning, Scalar(169, 169, 169), cv::FILLED, 8, 0);
 	}
 	//circle(img, Point(ROIStart + (4 * ROIlength / 5), linePointsSourceImage[1][1]), 10, CV_RGB(255,0,0), -1);
 }

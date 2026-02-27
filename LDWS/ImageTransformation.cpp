@@ -52,7 +52,7 @@ void ImageTransformation::applyGaussianBlur(Mat& image)
 // Converting an RGB image to greyscale
 void ImageTransformation::applyCvtColor(Mat& image)
 {
-	cvtColor(image, image, CV_BGR2GRAY);
+	cvtColor(image, image, cv::COLOR_BGR2GRAY);
 }
 
 // Applying Canny edge detection
