@@ -34,10 +34,15 @@ Author : Piraube Nicolas
  	   A tutorial on how to install Rasbian on a Raspberry Pi board is given in the 
  	   "Installing Raspbian Tutorial.pdf" document located in the Tutorial folder.
 
-	** The OpenCV library and libgpiod are needed for the software.
+	** The OpenCV library and libgpiod (version 2.0 or above) are needed for the software.
  	   These libraries can be installed through the following command line :
 	
 		$ sudo apt-get install libopencv-dev python-opencv libgpiod-dev
+
+	   Note: libgpiod 2.0+ is required. On Raspberry Pi OS Bookworm or newer, the
+	   default libgpiod-dev package provides version 2.0+. On older distributions,
+	   you may need to build libgpiod 2.x from source:
+	   https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/
 	 
  	   For a complete personalized installation (which can take up to a few hours) of the OpenCV libraries 
  	   please follow the tutorial "Installing Raspberry Camera module & OpenCV.pdf" in the Tutorial folder.
