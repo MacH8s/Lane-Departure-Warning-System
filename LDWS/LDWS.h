@@ -5,6 +5,7 @@
 #include"ROI.h"
 #include"ImageTransformation.h"
 #include"LaneAnalysis.h"
+#include"GPIOHandler.h"
 
 using namespace cv;
 using namespace std;
@@ -39,6 +40,9 @@ class LDWS
 		*/
 		LDWS(string path);
 
+		// Destructor
+		virtual ~LDWS();
+
 	protected:
 		//String inputPath storing the path to the algorithm input image or video.
 		string inputPath;
@@ -60,6 +64,9 @@ class LDWS
 
 		//LaneAnalysis object used for the algorithm.
 		LaneAnalysis laneAnalysis;
+
+		//GPIOHandler object used for GPIO pin operations.
+		GPIOHandler gpioHandler;
 };
 
 #endif
