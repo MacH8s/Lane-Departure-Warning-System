@@ -216,16 +216,22 @@ bool GPIOHandler::readPin23()
 void GPIOHandler::writePin24(bool high)
 {
 	if (!gpioReady) return;
-	gpiod_line_request_set_value(outputRequest, OUTPUT_PIN_LEFT,
-		high ? GPIOD_LINE_VALUE_ACTIVE : GPIOD_LINE_VALUE_INACTIVE);
+	if (gpiod_line_request_set_value(outputRequest, OUTPUT_PIN_LEFT,
+		high ? GPIOD_LINE_VALUE_ACTIVE : GPIOD_LINE_VALUE_INACTIVE) < 0)
+	{
+		cerr << "Failed to write GPIO pin " << OUTPUT_PIN_LEFT << endl;
+	}
 }
 
 // Write output pin 25 (right departure warning output)
 void GPIOHandler::writePin25(bool high)
 {
 	if (!gpioReady) return;
-	gpiod_line_request_set_value(outputRequest, OUTPUT_PIN_RIGHT,
-		high ? GPIOD_LINE_VALUE_ACTIVE : GPIOD_LINE_VALUE_INACTIVE);
+	if (gpiod_line_request_set_value(outputRequest, OUTPUT_PIN_RIGHT,
+		high ? GPIOD_LINE_VALUE_ACTIVE : GPIOD_LINE_VALUE_INACTIVE) < 0)
+	{
+		cerr << "Failed to write GPIO pin " << OUTPUT_PIN_RIGHT << endl;
+	}
 }
 
 // Check if GPIO was successfully initialized
