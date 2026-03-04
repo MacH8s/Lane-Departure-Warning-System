@@ -18,6 +18,7 @@ void GPIOHandler::initialize()
 	if (gpioInitialise() < 0)
 	{
 		cerr << "GPIO initialization failed. GPIO features disabled." << endl;
+		cerr << "Ensure pigpio daemon is running (sudo pigpiod) or run with sudo." << endl;
 		gpioReady = false;
 		return;
 	}

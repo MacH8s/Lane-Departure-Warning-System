@@ -19,7 +19,7 @@ LDWS::LDWS(string path):imageTransformation(), roi(), laneAnalysis()
 	gpioHandler.initialize();
 }
 
-// Destructor
+// Virtual destructor for proper polymorphic cleanup of derived classes
 LDWS::~LDWS()
 {
 }
