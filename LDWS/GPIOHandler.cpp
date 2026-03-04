@@ -92,14 +92,26 @@ void GPIOHandler::cleanup()
 bool GPIOHandler::readPin22()
 {
 	if (!gpioReady) return false;
-	return gpiod_line_get_value(lineInputLeft) == 1;
+	int val = gpiod_line_get_value(lineInputLeft);
+	if (val < 0)
+	{
+		cerr << "Failed to read GPIO pin " << INPUT_PIN_LEFT << endl;
+		return false;
+	}
+	return val == 1;
 }
 
 // Read input pin 23 (right lane external signal)
 bool GPIOHandler::readPin23()
 {
 	if (!gpioReady) return false;
-	return gpiod_line_get_value(lineInputRight) == 1;
+	int val = gpiod_line_get_value(lineInputRight);
+	if (val < 0)
+	{
+		cerr << "Failed to read GPIO pin " << INPUT_PIN_RIGHT << endl;
+		return false;
+	}
+	return val == 1;
 }
 
 // Write output pin 24 (left departure warning output)
