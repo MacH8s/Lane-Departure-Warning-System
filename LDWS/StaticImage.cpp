@@ -47,8 +47,18 @@ void StaticImage::applyAlgorithm()
 				laneAnalysis.setlinePointsSourceImage(imageTransformation.applyReverseIPM(roi.getInverseHomography(), laneAnalysis.getLinePointsIPMImage()));
 			
 			laneAnalysis.drawFinalLines(sourceImg);
-			
-			laneAnalysis.checkAndDrawDeparture(sourceImg, sourceImg.cols);
+
+			//Read GPIO input pins
+			bool pin22High = gpioHandler.readPin22();
+			bool pin23High = gpioHandler.readPin23();
+			bool leftDepartureWarning = false;
+			bool rightDepartureWarning = false;
+
+			laneAnalysis.checkAndDrawDeparture(sourceImg, sourceImg.cols, pin22High, pin23High, leftDepartureWarning, rightDepartureWarning);
+
+			//Write GPIO output pins
+			gpioHandler.writePin24(leftDepartureWarning && !pin22High);
+			gpioHandler.writePin25(rightDepartureWarning && !pin23High);
 			
 			roi.showROI(sourceImg);
 			

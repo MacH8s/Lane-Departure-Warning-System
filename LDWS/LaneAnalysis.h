@@ -97,8 +97,12 @@ class LaneAnalysis
 		* Parameters 
 		*	Mat& img : Pointer to a matrix storing the source image.
 		*	int& originalWidth : Integer storing the original image width.
+		*	bool pin22High : True if GPIO pin 22 is HIGH (left external override).
+		*	bool pin23High : True if GPIO pin 23 is HIGH (right external override).
+		*	bool& leftDepartureWarning : Output flag set true if left departure detected.
+		*	bool& rightDepartureWarning : Output flag set true if right departure detected.
 		*/
-		void checkAndDrawDeparture(Mat& img, int& originalWidth);
+		void checkAndDrawDeparture(Mat& img, int& originalWidth, bool pin22High, bool pin23High, bool& leftDepartureWarning, bool& rightDepartureWarning);
 		
 	private:
 		//Vectors storing lane points in the different images.

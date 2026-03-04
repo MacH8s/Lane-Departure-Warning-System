@@ -7,6 +7,7 @@ LDWS::LDWS():imageTransformation(), roi(), laneAnalysis()
 	img = Mat();
 	sourceImg = Mat();
 	ipmImage = Mat();
+	gpioHandler.initialize();
 }
 
 // Constructor
@@ -15,4 +16,10 @@ LDWS::LDWS(string path):imageTransformation(), roi(), laneAnalysis()
 	inputPath = path;
 	sourceImg = Mat();
 	ipmImage = Mat();
+	gpioHandler.initialize();
+}
+
+// Destructor
+LDWS::~LDWS()
+{
 }
