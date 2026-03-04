@@ -63,6 +63,8 @@ class GPIOHandler
 		int chipFd;
 		int inputFd;
 		int outputFd;
+
+		unsigned char outputState[2];
 };
 
 #endif

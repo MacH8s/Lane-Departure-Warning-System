@@ -15,6 +15,8 @@ GPIOHandler::GPIOHandler()
 	chipFd = -1;
 	inputFd = -1;
 	outputFd = -1;
+	outputState[0] = 0;
+	outputState[1] = 0;
 }
 
 // Destructor
@@ -145,15 +147,11 @@ bool GPIOHandler::readPin23()
 void GPIOHandler::writePin24(bool high)
 {
 	if (!gpioReady) return;
+	outputState[0] = high ? 1 : 0;
 	struct gpiohandle_data data;
 	memset(&data, 0, sizeof(data));
-	// Read current output state to preserve pin 25's value
-	if (ioctl(outputFd, GPIOHANDLE_GET_LINE_VALUES_IOCTL, &data) < 0)
-	{
-		cerr << "Failed to read GPIO output state for pin " << OUTPUT_PIN_LEFT << endl;
-		return;
-	}
-	data.values[0] = high ? 1 : 0;
+	data.values[0] = outputState[0];
+	data.values[1] = outputState[1];
 	if (ioctl(outputFd, GPIOHANDLE_SET_LINE_VALUES_IOCTL, &data) < 0)
 	{
 		cerr << "Failed to write GPIO pin " << OUTPUT_PIN_LEFT << endl;
@@ -164,15 +162,11 @@ void GPIOHandler::writePin24(bool high)
 void GPIOHandler::writePin25(bool high)
 {
 	if (!gpioReady) return;
+	outputState[1] = high ? 1 : 0;
 	struct gpiohandle_data data;
 	memset(&data, 0, sizeof(data));
-	// Read current output state to preserve pin 24's value
-	if (ioctl(outputFd, GPIOHANDLE_GET_LINE_VALUES_IOCTL, &data) < 0)
-	{
-		cerr << "Failed to read GPIO output state for pin " << OUTPUT_PIN_RIGHT << endl;
-		return;
-	}
-	data.values[1] = high ? 1 : 0;
+	data.values[0] = outputState[0];
+	data.values[1] = outputState[1];
 	if (ioctl(outputFd, GPIOHANDLE_SET_LINE_VALUES_IOCTL, &data) < 0)
 	{
 		cerr << "Failed to write GPIO pin " << OUTPUT_PIN_RIGHT << endl;
