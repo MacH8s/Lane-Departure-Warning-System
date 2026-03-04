@@ -1,9 +1,16 @@
 #include "GPIOHandler.h"
 
+const char* GPIOHandler::GPIO_CHIP_PATH = "/dev/gpiochip0";
+
 // Default constructor
 GPIOHandler::GPIOHandler()
 {
 	gpioReady = false;
+	chip = NULL;
+	lineInputLeft = NULL;
+	lineInputRight = NULL;
+	lineOutputLeft = NULL;
+	lineOutputRight = NULL;
 }
 
 // Destructor
@@ -15,23 +22,51 @@ GPIOHandler::~GPIOHandler()
 // Initialize GPIO pins
 void GPIOHandler::initialize()
 {
-	if (gpioInitialise() < 0)
+	chip = gpiod_chip_open(GPIO_CHIP_PATH);
+	if (!chip)
 	{
 		cerr << "GPIO initialization failed. GPIO features disabled." << endl;
-		cerr << "Ensure pigpio daemon is running (sudo pigpiod) or run with sudo." << endl;
+		cerr << "Could not open " << GPIO_CHIP_PATH << ". Ensure /dev/gpiochip0 exists." << endl;
 		gpioReady = false;
 		return;
 	}
 
-	// Set pin modes
-	gpioSetMode(INPUT_PIN_LEFT, PI_INPUT);
-	gpioSetMode(INPUT_PIN_RIGHT, PI_INPUT);
-	gpioSetMode(OUTPUT_PIN_LEFT, PI_OUTPUT);
-	gpioSetMode(OUTPUT_PIN_RIGHT, PI_OUTPUT);
+	// Get GPIO lines
+	lineInputLeft = gpiod_chip_get_line(chip, INPUT_PIN_LEFT);
+	lineInputRight = gpiod_chip_get_line(chip, INPUT_PIN_RIGHT);
+	lineOutputLeft = gpiod_chip_get_line(chip, OUTPUT_PIN_LEFT);
+	lineOutputRight = gpiod_chip_get_line(chip, OUTPUT_PIN_RIGHT);
 
-	// Initialize outputs to LOW
-	gpioWrite(OUTPUT_PIN_LEFT, 0);
-	gpioWrite(OUTPUT_PIN_RIGHT, 0);
+	if (!lineInputLeft || !lineInputRight || !lineOutputLeft || !lineOutputRight)
+	{
+		cerr << "Failed to get GPIO lines. GPIO features disabled." << endl;
+		gpiod_chip_close(chip);
+		chip = NULL;
+		gpioReady = false;
+		return;
+	}
+
+	// Request input lines
+	if (gpiod_line_request_input(lineInputLeft, "LDWS") < 0 ||
+		gpiod_line_request_input(lineInputRight, "LDWS") < 0)
+	{
+		cerr << "Failed to request GPIO input lines. GPIO features disabled." << endl;
+		gpiod_chip_close(chip);
+		chip = NULL;
+		gpioReady = false;
+		return;
+	}
+
+	// Request output lines with initial value LOW
+	if (gpiod_line_request_output(lineOutputLeft, "LDWS", 0) < 0 ||
+		gpiod_line_request_output(lineOutputRight, "LDWS", 0) < 0)
+	{
+		cerr << "Failed to request GPIO output lines. GPIO features disabled." << endl;
+		gpiod_chip_close(chip);
+		chip = NULL;
+		gpioReady = false;
+		return;
+	}
 
 	gpioReady = true;
 }
@@ -41,10 +76,15 @@ void GPIOHandler::cleanup()
 {
 	if (gpioReady)
 	{
-		gpioWrite(OUTPUT_PIN_LEFT, 0);
-		gpioWrite(OUTPUT_PIN_RIGHT, 0);
-		gpioTerminate();
+		gpiod_line_set_value(lineOutputLeft, 0);
+		gpiod_line_set_value(lineOutputRight, 0);
 		gpioReady = false;
+	}
+
+	if (chip)
+	{
+		gpiod_chip_close(chip);
+		chip = NULL;
 	}
 }
 
@@ -52,28 +92,28 @@ void GPIOHandler::cleanup()
 bool GPIOHandler::readPin22()
 {
 	if (!gpioReady) return false;
-	return gpioRead(INPUT_PIN_LEFT) == 1;
+	return gpiod_line_get_value(lineInputLeft) == 1;
 }
 
 // Read input pin 23 (right lane external signal)
 bool GPIOHandler::readPin23()
 {
 	if (!gpioReady) return false;
-	return gpioRead(INPUT_PIN_RIGHT) == 1;
+	return gpiod_line_get_value(lineInputRight) == 1;
 }
 
 // Write output pin 24 (left departure warning output)
 void GPIOHandler::writePin24(bool high)
 {
 	if (!gpioReady) return;
-	gpioWrite(OUTPUT_PIN_LEFT, high ? 1 : 0);
+	gpiod_line_set_value(lineOutputLeft, high ? 1 : 0);
 }
 
 // Write output pin 25 (right departure warning output)
 void GPIOHandler::writePin25(bool high)
 {
 	if (!gpioReady) return;
-	gpioWrite(OUTPUT_PIN_RIGHT, high ? 1 : 0);
+	gpiod_line_set_value(lineOutputRight, high ? 1 : 0);
 }
 
 // Check if GPIO was successfully initialized
