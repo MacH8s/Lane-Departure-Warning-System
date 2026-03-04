@@ -1,7 +1,6 @@
 #ifndef __GPIOHANDLER_H__
 #define __GPIOHANDLER_H__
 
-#include <gpiod.h>
 #include <iostream>
 
 using namespace std;
@@ -13,7 +12,9 @@ using namespace std;
  *
  * Contents: The GPIOHandler class manages Raspberry Pi GPIO pins for
  *           external input/output signaling in the LDWS.
- *           Uses libgpiod 2.0+ API for GPIO access on modern Raspberry Pi kernels.
+ *           Uses the Linux kernel GPIO character device ioctl interface directly
+ *           (linux/gpio.h uAPI), requiring no external library. Compatible with
+ *           any Linux kernel 4.8+ (Debian 11, Debian 13, and beyond).
  *           - Reads pins 22 (left) and 23 (right) as inputs from an external source.
  *           - Writes to pins 24 (left departure) and 25 (right departure) as outputs.
  *           HIGH = 3300mV, LOW = 0mV (standard Raspberry Pi GPIO).
@@ -59,9 +60,9 @@ class GPIOHandler
 
 		static const char* GPIO_CHIP_PATH;
 
-		struct gpiod_chip *chip;
-		struct gpiod_line_request *inputRequest;
-		struct gpiod_line_request *outputRequest;
+		int chipFd;
+		int inputFd;
+		int outputFd;
 };
 
 #endif
